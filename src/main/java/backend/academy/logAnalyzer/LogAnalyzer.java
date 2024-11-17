@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public final class LogAnalyzer {
-
     private LogAnalyzer() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
@@ -18,9 +17,23 @@ public final class LogAnalyzer {
     private static PrintStream printStream = new PrintStream(System.out);
     private static final Logger LOGGER = Logger.getLogger(LogAnalyzer.class.getName());
 
-    //CHECKSTYLE:OFF
-    public static void main(String @NotNull [] args) {
-        // Обработка аргументов командной строки вручную
+    @SuppressWarnings("checkstyle:UncommentedMain") public static void main(String @NotNull [] args) {
+        String[] parameters = parseArguments(args);
+
+        String path = parameters[0];
+        String from = parameters[1];
+        String to = parameters[2];
+        String format = parameters[2 + 1];
+
+        if (!isPathValid(path)) {
+            printUsage();
+            return;
+        }
+
+        executeAnalysis(path, from, to, format);
+    }
+
+    @SuppressWarnings("checkstyle:ModifiedControlVariable") private static String[] parseArguments(String[] args) {
         String path = null;
         String from = null;
         String to = null;
@@ -55,15 +68,20 @@ public final class LogAnalyzer {
             }
         }
 
-        if (path == null) {
-            printStream.println("Usage: analyzer --path <log path> [--from <start date>]" +
-                " [--to <end date>] [--format <markdown|adoc>]");
-            return;
-        }
+        return new String[]{path, from, to, format};
+    }
 
-        // Инициализация компонентов
+    private static boolean isPathValid(String path) {
+        return path != null;
+    }
+
+    private static void printUsage() {
+        printStream.println("Usage: analyzer --path <log path> [--from <start date>] "
+            + "[--to <end date>] [--format <markdown|adoc>]");
+    }
+
+    private static void executeAnalysis(String path, String from, String to, String format) {
         LogFileReader fileReader = new LogFileReader();
-        LogParser parser = new LogParser();
         StatisticsCollector collector = new StatisticsCollector();
         LogReport report = new LogReport();
 
@@ -71,10 +89,10 @@ public final class LogAnalyzer {
             List<LogRecord> records = fileReader.readLogs(path);
             List<LogRecord> filteredRecords = DateUtils.filterRecordsByDate(records, from, to);
             collector.collectStatistics(filteredRecords, from, to);
-            report.generateReport(collector, format);
+            report.generateReport(collector, format, printStream);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error reading log files: " + e.getMessage(), e);
         }
     }
-    //CHECKSTYLE:ON
+
 }

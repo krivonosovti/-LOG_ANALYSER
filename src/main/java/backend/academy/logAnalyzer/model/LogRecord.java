@@ -1,5 +1,7 @@
 package backend.academy.logAnalyzer.model;
 
+import java.util.Objects;
+
 public class LogRecord {
     private String ipAddress;
     private String timestamp;
@@ -34,5 +36,28 @@ public class LogRecord {
 
     public int getResponseSize() {
         return responseSize;
+    }
+
+    // Переопределяем equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        LogRecord logRecord = (LogRecord) o;
+        return statusCode == logRecord.statusCode
+            && responseSize == logRecord.responseSize
+            && Objects.equals(ipAddress, logRecord.ipAddress)
+            && Objects.equals(timestamp, logRecord.timestamp)
+            && Objects.equals(request, logRecord.request);
+    }
+
+    // Переопределяем hashCode
+    @Override
+    public int hashCode() {
+        return Objects.hash(ipAddress, timestamp, request, statusCode, responseSize);
     }
 }

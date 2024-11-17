@@ -10,10 +10,9 @@ import java.util.logging.Logger;
 
 public class LogReport {
     private static final Logger LOGGER = Logger.getLogger(LogAnalyzer.class.getName());
-    private static PrintStream printStream = new PrintStream(System.out);
 
     //CHECKSTYLE:OFF
-    public void generateReport(StatisticsCollector collector, String format) {
+    public void generateReport(StatisticsCollector collector, String format, PrintStream printStream) {
         StringBuilder report = new StringBuilder();
 
         // Генерация заголовка
@@ -48,7 +47,7 @@ public class LogReport {
         }
 
         // Запись отчета в файл
-        writeReportToFile(report.toString(), format);
+        writeReportToFile(report.toString(), format, printStream);
     }
 
     // Получение имени статуса по коду ответа
@@ -96,7 +95,7 @@ public class LogReport {
     //CHECKSTYLE:ON
 
     // Метод для записи отчета в файл
-    private void writeReportToFile(String reportContent, String format) {
+    private void writeReportToFile(String reportContent, String format, PrintStream printStream) {
         String fileName = "log_report." + format;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(reportContent);

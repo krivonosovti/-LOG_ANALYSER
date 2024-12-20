@@ -1,30 +1,25 @@
-#### Общая информация
+#### General Information
 
-|        Метрика        |     Значение |
-|:---------------------:|-------------:|
-|       Файл(-ы)        | `access.log` |
-|    Начальная дата     | - |
-|     Конечная дата     | 2015-05-17 |
-|  Количество запросов  | 1966 |
-| Средний размер ответа  | 67318.63479145474b |
-|   95p размера ответа   | 341.0b |
+| Metric | Value |
+|:---|---:|
+| Resource(s) | nginx_logs* |
+| Start Date | 2016-02-02 |
+| End Date | - |
+| Request Count | 2 |
+| Average Response Size | 411b |
+| 95th Percentile Response Size | 490b |
+| 50th Percentile Response Size | 332b |
 
-#### Запрашиваемые ресурсы
+#### Requested Resources
 
-|     Ресурс      | Количество |
-|:---------------:|-----------:|
-| GET /downloads/product_2 HTTP/1.1 | 1167 |
-| GET /downloads/product_1 HTTP/1.1 | 759 |
-| HEAD /downloads/product_2 HTTP/1.1 | 26 |
-| HEAD /downloads/product_1 HTTP/1.1 | 13 |
-| GET /downloads/product_3 HTTP/1.1 | 1 |
+| Resource | Count |
+|:---|---:|
+| /downloads/product_1 | 1 |
+| /downloads/product_2 | 1 |
 
-#### Коды ответа
+#### Response Codes
 
-| Код |          Имя          | Количество |
-|:---:|:---------------------:|-----------:|
-| 404 | Not Found | 1353 |
-| 304 | Not Modified | 526 |
-| 200 | OK | 74 |
-| 403 | Forbidden | 12 |
-| 206 | Partial Content | 1 |
+| Code | Name |
+|:---|---:|
+| 404 | Not Found | 1 |
+| 200 | OK | 1 |
